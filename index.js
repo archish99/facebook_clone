@@ -2,11 +2,14 @@ const { ApolloServer, gql } = require("apollo-server-express");
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const typeDefs = require("./graphql/typeDefs/typeDefs");
 const resolvers = require("./graphql/resolvers/index");
 
 const app = express();
+
+app.use(cors());
 
 dotenv.config({ path: `${__dirname}/config.env` });
 
