@@ -7,7 +7,13 @@ import { RiVideoFill } from "react-icons/ri";
 import LeftSideBarIcon from "../../../components/icons/left-side-bar-icon/left-side-bar-icon.component";
 
 const LeftSideBar = () => (
-  <VStack p="20px" flexBasis="30%" alignItems="flex-start" spacing={6}>
+  <VStack
+    p="20px"
+    flexBasis="30%"
+    alignItems="flex-start"
+    spacing={6}
+    display={{ sm: "flex", xxs: "none" }}
+  >
     <LeftSideBarIcon
       title="Friends"
       icon={FaUserFriends}

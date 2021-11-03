@@ -4,6 +4,7 @@ import { Box, Flex } from "@chakra-ui/layout";
 import React, { useEffect, useState } from "react";
 import { LIST_POSTS } from "../../graphql/query/query";
 import MidContent from "../mid-content/mid-content.layout";
+import RightSideBar from "../right-sidebar/right-sidebar.layout";
 import LeftSideBar from "../side-bar/left-side-bar/left-side-bar.layout";
 import TopBar from "../top-bar/top-bar.layout";
 
@@ -34,6 +35,7 @@ const HomePage = () => {
           posts={posts}
           setPostsFromChild={setPostsFromChild}
         />
+        <RightSideBar />
       </Flex>
     </Box>
   );

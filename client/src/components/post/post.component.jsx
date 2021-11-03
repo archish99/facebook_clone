@@ -10,9 +10,11 @@ import { selectUsername } from "../../redux/userSlice/userSlice";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { DELETE_POST, LIKE_POST } from "../../graphql/mutation/mutation";
 import { LIST_POSTS } from "../../graphql/query/query";
+import { useToast } from "@chakra-ui/toast";
 
 const Post = ({ post, setPostsFromChild }) => {
   const postBg = useColorModeValue("#fff", "#242526");
+  const toast = useToast();
 
   const username = useSelector(selectUsername);
 
@@ -31,8 +33,18 @@ const Post = ({ post, setPostsFromChild }) => {
     try {
       const data = await deletePost({ variables: { postId: id } });
       console.log(data);
+      toast({
+        title: "Post deleted",
+        status: "success",
+        duration: 1000,
+      });
       getPosts();
     } catch (err) {
+      toast({
+        title: "Error deleting",
+        status: "error",
+        duration: 1000,
+      });
       console.log(err);
     }
   };
@@ -77,7 +89,11 @@ const Post = ({ post, setPostsFromChild }) => {
               mr="10px"
             />
             <Box>
-              <Text fontSize="16px" fontWeight="bold" mb="8px">
+              <Text
+                fontSize={{ xs: "16px", xxs: "15px" }}
+                fontWeight="bold"
+                mb="8px"
+              >
                 {`${post.username
                   .substring(0, 1)
                   .toUpperCase()}${post.username.substring(1)}`}
@@ -92,7 +108,7 @@ const Post = ({ post, setPostsFromChild }) => {
               {postLiked ? (
                 <Icon
                   as={AiFillHeart}
-                  fontSize="22px"
+                  fontSize={{ sm: "22px", xxs: "18px" }}
                   cursor="pointer"
                   mr="5px"
                   fill="red"
@@ -104,7 +120,7 @@ const Post = ({ post, setPostsFromChild }) => {
               ) : (
                 <Icon
                   as={AiOutlineHeart}
-                  fontSize="22px"
+                  fontSize={{ sm: "22px", xxs: "18px" }}
                   cursor="pointer"
                   mr="5px"
                   onClick={() => {

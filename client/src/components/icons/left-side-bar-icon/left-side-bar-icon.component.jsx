@@ -9,7 +9,7 @@ const LeftSideBarIcon = ({ icon, title, color, width }) => {
   return (
     <Flex
       alignItems="center"
-      p="5px 10px"
+      p={{ xl: "5px 10px", md: "5px" }}
       borderRadius="20px"
       cursor="pointer"
       w={width}
@@ -17,9 +17,14 @@ const LeftSideBarIcon = ({ icon, title, color, width }) => {
         background: `${colorMode === "light" ? "#E4E6E9" : "#746a6a7f"}`,
       }}
     >
-      <Icon as={icon} fontSize="25px" fill={color} mr="10px" />
+      <Icon
+        as={icon}
+        fontSize={{ xs: "25px", xxs: "20px" }}
+        fill={color}
+        mr="10px"
+      />
       <Text
-        fontSize={{ base: "5px", sm: "16px", md: "15px", lg: "18px" }}
+        fontSize={{ xl: "18px", xs: "15px", xxs: "12px" }}
         fontWeight="bold"
       >
         {title}

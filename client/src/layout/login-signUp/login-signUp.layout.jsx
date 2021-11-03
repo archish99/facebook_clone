@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useColorModeValue, useColorMode } from "@chakra-ui/color-mode";
 import {
+  Box,
   Flex,
   VStack,
   HStack,
   FormControl,
   FormLabel,
+  FormErrorMessage,
   Input,
   Heading,
   Button,
@@ -51,6 +53,15 @@ const LoginSignUp = () => {
       setIsLoading(true);
       if (isSignUp) {
         // Sign up the user
+        if (values.confirmPassword !== values.password) {
+          setIsLoading(false);
+          return toast({
+            title: "Password and Confirm password must match",
+            status: "error",
+            duration: 1000,
+          });
+        }
+
         try {
           const signUpData = await signup({
             variables: { ...values },
@@ -137,83 +148,104 @@ const LoginSignUp = () => {
         </Button>
       </Flex>
       <Flex alignItems="center" justifyContent="center" w="100%" h="100%">
-        <form
-          style={{ width: "25%" }}
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSubmit();
+        <Box
+          w={{
+            xl: "25%",
+            lg: "27%",
+            md: "35%",
+            sm: "45%",
+            xs: "60%",
+            xxs: "95%",
           }}
         >
-          <VStack
-            bg={formBg}
-            p="20px"
-            borderRadius="10px"
-            spacing={4}
-            boxShadow="0 2px 4px rgba(0, 0, 0, .25)"
+          <form
+            style={{ width: "100%" }}
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit();
+            }}
           >
-            <Heading color={headingColor}>
-              {isSignUp ? "Sign Up" : "Login"}
-            </Heading>
-            <FormControl isRequired p="2px">
-              <FormLabel>User Name</FormLabel>
-              <Input
-                type="text"
-                name="username"
-                value={values.username}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </FormControl>
-            {isSignUp ? (
+            <VStack
+              bg={formBg}
+              p="20px"
+              borderRadius="10px"
+              spacing={4}
+              boxShadow="0 2px 4px rgba(0, 0, 0, .25)"
+            >
+              <Heading color={headingColor}>
+                {isSignUp ? "Sign Up" : "Login"}
+              </Heading>
               <FormControl isRequired p="2px">
-                <FormLabel>Email</FormLabel>
+                <FormLabel>User Name</FormLabel>
                 <Input
-                  type="email"
-                  name="email"
-                  value={values.email}
+                  type="text"
+                  name="username"
+                  value={values.username}
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
               </FormControl>
-            ) : null}
-            <FormControl isRequired p="2px">
-              <FormLabel>Password</FormLabel>
-              <Input
-                type="password"
-                name="password"
-                value={values.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-            </FormControl>
-            {isSignUp ? (
+              {isSignUp ? (
+                <FormControl isRequired p="2px">
+                  <FormLabel>Email</FormLabel>
+                  <Input
+                    type="email"
+                    name="email"
+                    value={values.email}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                </FormControl>
+              ) : null}
               <FormControl isRequired p="2px">
-                <FormLabel>Confirm Password</FormLabel>
+                <FormLabel>Password</FormLabel>
                 <Input
                   type="password"
-                  name="confirmPassword"
-                  value={values.confirmPassword}
+                  name="password"
+                  value={values.password}
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
               </FormControl>
-            ) : null}
-            <HStack w="100%" justifyContent="space-between">
-              <Button isLoading={isLoading} type="submit">
-                Submit
-              </Button>
-              <Button
-                onClick={() => {
-                  setIsSignUp(!isSignUp);
-                  setFieldValue("username", "");
-                  setFieldValue("password", "");
-                }}
-              >
-                {isSignUp ? "Login" : "Sign Up"}
-              </Button>
-            </HStack>
-          </VStack>
-        </form>
+              {isSignUp ? (
+                <FormControl
+                  isRequired
+                  p="2px"
+                  isInvalid={
+                    values.confirmPassword?.length > 0 &&
+                    values.password !== values.confirmPassword
+                  }
+                >
+                  <FormLabel>Confirm Password</FormLabel>
+                  <Input
+                    type="password"
+                    name="confirmPassword"
+                    value={values.confirmPassword}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  <FormErrorMessage>
+                    Password and confirm password do not match
+                  </FormErrorMessage>
+                </FormControl>
+              ) : null}
+              <HStack w="100%" justifyContent="space-between">
+                <Button isLoading={isLoading} type="submit">
+                  Submit
+                </Button>
+                <Button
+                  onClick={() => {
+                    setIsSignUp(!isSignUp);
+                    setFieldValue("username", "");
+                    setFieldValue("password", "");
+                  }}
+                >
+                  {isSignUp ? "Login" : "Sign Up"}
+                </Button>
+              </HStack>
+            </VStack>
+          </form>
+        </Box>
       </Flex>
     </VStack>
   );

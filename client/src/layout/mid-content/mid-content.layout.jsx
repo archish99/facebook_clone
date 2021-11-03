@@ -1,6 +1,6 @@
 import { Avatar } from "@chakra-ui/avatar";
 import { Input } from "@chakra-ui/input";
-import { Box, Divider, Flex, VStack } from "@chakra-ui/layout";
+import { Box, Divider, Flex, Text, VStack } from "@chakra-ui/layout";
 import React, { useEffect } from "react";
 import { IoMdVideocam, IoMdPhotos } from "react-icons/io";
 import { BsEmojiLaughingFill } from "react-icons/bs";
@@ -79,7 +79,12 @@ const MidContent = ({ loading, posts, setPostsFromChild }) => {
   }, [loading]);
 
   return (
-    <VStack flexBasis="40%" p="20px" spacing={6}>
+    <VStack
+      flexBasis={{ xl: "40%", lg: "50%", md: "70%", xxs: "100%" }}
+      flexWrap="wrap"
+      p="20px"
+      spacing={6}
+    >
       <Box
         bg={topBoxBg}
         p="10px"
@@ -106,6 +111,7 @@ const MidContent = ({ loading, posts, setPostsFromChild }) => {
                 type="text"
                 bg={searchInputBg}
                 borderRadius="20px"
+                fontSize={{ xs: "16px", xxs: "15px" }}
                 autoComplete="off"
                 name="body"
                 value={values.body}
@@ -119,7 +125,11 @@ const MidContent = ({ loading, posts, setPostsFromChild }) => {
             </form>
           </Flex>
           <Divider />
-          <Flex justifyContent="space-between" w="100%">
+          <Flex
+            justifyContent="space-between"
+            w="100%"
+            display={{ xs: "flex", xxs: "none" }}
+          >
             <LeftSideBarIcon
               icon={IoMdVideocam}
               title="Live Video"
@@ -140,7 +150,7 @@ const MidContent = ({ loading, posts, setPostsFromChild }) => {
       </Box>
       {loading ? (
         <Spinner size="lg" />
-      ) : (
+      ) : posts && posts?.length > 0 ? (
         posts?.map((post) => (
           <Post
             key={post.id}
@@ -148,6 +158,8 @@ const MidContent = ({ loading, posts, setPostsFromChild }) => {
             setPostsFromChild={setPostsFromChild}
           />
         ))
+      ) : (
+        <Text>There are no posts yet. Create new up there 👆</Text>
       )}
     </VStack>
   );
